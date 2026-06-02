@@ -1,0 +1,6 @@
+{
+  "name": "Darun Spice eCommerce",
+  "description": "A high-performance premium Bengali eCommerce platform for selling 100% natural, organic spices ('Darun') featuring real-time state synchronization with Firestore, ABAC Fortress security rules, customer profile accounts, feedback channels, payment simulations, and a fully equipped admin statistics panel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

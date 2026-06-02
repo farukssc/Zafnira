@@ -1,0 +1,125 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Customer and Admin profiles containing sensitive contact and role data.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique user ID" },
+        "email": { "type": "string", "description": "User registered email" },
+        "name": { "type": "string", "description": "Full name of the user" },
+        "role": { "type": "string", "enum": ["customer", "admin"], "description": "User authorization role" },
+        "phone": { "type": "string", "description": "Contact number" },
+        "address": { "type": "string", "description": "Delivery address" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "name", "role", "createdAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Spice product details including stock and pricing.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string", "description": "Spice name in Bangla" },
+        "nameEn": { "type": "string", "description": "Spice name in English" },
+        "desc": { "type": "string", "description": "Product description in Bangla" },
+        "price": { "type": "number", "description": "Price per unit (BDT)" },
+        "stock": { "type": "number", "description": "Available stock quantity" },
+        "image": { "type": "string", "description": "Product image URL or data URL" },
+        "category": { "type": "string", "description": "Product category e.g. powder, whole, masala" },
+        "rating": { "type": "number", "description": "Average rating of the product" },
+        "reviewsCount": { "type": "number", "description": "Number of reviews submitted" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "price", "stock", "image", "category", "createdAt"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Customer purchase transaction details, statuses, and products.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string", "description": "ID of the customer who ordered" },
+        "customerName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string", "description": "Customer contact number" },
+        "address": { "type": "string", "description": "Delivery address" },
+        "items": { "type": "array", "description": "List of ordered items with spacing and quantity" },
+        "totalAmount": { "type": "number", "description": "Total order amount in BDT" },
+        "paymentMethod": { "type": "string", "enum": ["cod", "bkash", "nagad", "rocket", "upay", "stripe", "paypal"] },
+        "paymentStatus": { "type": "string", "enum": ["pending", "completed"] },
+        "orderStatus": { "type": "string", "enum": ["pending", "processing", "completed", "cancelled"] },
+        "trackingNumber": { "type": "string", "description": "Unique order tracking ID" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "customerName", "phone", "address", "items", "totalAmount", "paymentMethod", "paymentStatus", "orderStatus", "trackingNumber", "createdAt"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Product reviews and ratings written by verified customers.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "productId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "productId", "userId", "userName", "rating", "comment", "status", "createdAt"]
+    },
+    "Config": {
+      "title": "Config",
+      "description": "Website management configuration documents such as banners and contact information.",
+      "type": "object",
+      "properties": {
+        "banners": { "type": "array", "description": "Array of home page banner sliders" },
+        "contacts": { "type": "object", "description": "Contact info object" },
+        "homepageContent": { "type": "object", "description": "Static home sections info" }
+      },
+      "required": []
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Explicit role mapping document to identify backend admins.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Sensitive customer profile documents containing delivery addresses."
+    },
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Public catalog of individual spice products."
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Secure customer orders to be tracked or managed."
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Public spice reviews with customizable status approvals."
+    },
+    "/configs/{configId}": {
+      "schema": "Config",
+      "description": "General website and homepage configurations adjustable by admin."
+    },
+    "/admins/{adminId}": {
+      "schema": "Admin",
+      "description": "Verified global administrators collection."
+    }
+  }
+}
